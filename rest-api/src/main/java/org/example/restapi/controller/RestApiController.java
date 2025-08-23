@@ -1,12 +1,16 @@
 package org.example.restapi.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Spring은 Annotation으로 역할을 지정
  * 이전에는 xml로 설정함
+ * 8080 포트가 이미 사용 중인 경우, cmd 창에서 다음과 같은 명령어로 종료시킬 수 있다.
+ * 1. `netstat -ano | findstr 8080`를 입력해서 8080 포트를 사용중인 process id를 확인한다.
+ * 2. `taskkill /f /pid {pid Number}` 명령어로 해당 process를 종료한다.
  */
 @RestController // RestController 설정
 @RequestMapping("/api") // 요청 받을 주소
@@ -24,5 +28,12 @@ public class RestApiController {
         var html = "<html> <body> <h1> Hello Spring Boot </h1> </body> </html>";
 
         return html;
+    }
+
+    @GetMapping(path = "/echo/{message}")
+    public String echo(@PathVariable(name = "message") String msg) {
+        System.out.println("echo message: " + msg);
+
+        return msg.toUpperCase();
     }
 }
