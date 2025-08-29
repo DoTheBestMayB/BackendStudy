@@ -20,4 +20,15 @@ public class UserRequest {
     // Integer는 값이 전달되지 않으면 null로 설정된다.
     private int userAge;
     private String email;
+    /**
+     * boolean의 기본 값은 false
+     * isXxx로 변수를 선언하면 Data 애노테이션에 의해 생성되는 함수는 setIsXxx가 아니라 setXxx이다.
+     * json에서 xxx로 데이터를 전달하면 isXxx에 맵핑되어 변환된다.
+     * 하지만 이렇게 사용할 경우 다음과 같은 문제가 있다.
+     * 1. json과 변수 이름이 매칭되지 않는다.
+     * 2. 값이 들어오지 않으면 null로 설정되는 것이 바람직하다.
+     * <p>
+     * boolean 대신 wrapper 타입인 Boolean을 사용하면 위 두 문제가 해결된다.
+     */
+    private Boolean isKorean;
 }
