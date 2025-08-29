@@ -1,5 +1,6 @@
 package org.example.restapi.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.restapi.model.BookQueryParam;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * 1. `netstat -ano | findstr 8080`를 입력해서 8080 포트를 사용중인 process id를 확인한다.
  * 2. `taskkill /f /pid {pid Number}` 명령어로 해당 process를 종료한다.
  */
+@Slf4j
 @RestController // RestController 설정
 @RequestMapping("/api") // 요청 받을 주소
 public class RestApiController {
@@ -56,5 +58,19 @@ public class RestApiController {
             BookQueryParam bookQueryParam
     ) {
 
+    }
+
+    //    @DeleteMapping("delete") // 그냥 delete도 가능
+    // path를 이용하면 여러 주소를 설정할 수 있다. 주소 migration 시 유용하다.
+    @DeleteMapping(path = {
+//            "/user/{userName}/delete/", 주소 마지막에 '/'는 적지 않는 것이 관례
+            "/user/{userName}/delete",
+            "/user/{userName}/del"
+        }
+    )
+    public void delete(
+        @PathVariable String userName
+    ) {
+        log.info("user-name : {}", userName);
     }
 }
