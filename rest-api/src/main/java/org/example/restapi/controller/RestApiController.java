@@ -1,9 +1,7 @@
 package org.example.restapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.example.restapi.model.BookQueryParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Spring은 Annotation으로 역할을 지정
@@ -30,10 +28,33 @@ public class RestApiController {
         return html;
     }
 
-    @GetMapping(path = "/echo/{message}")
-    public String echo(@PathVariable(name = "message") String msg) {
+    @GetMapping(path = "/echo/{message}/age/{age}/is-man/{isMan}")
+    public String echo(
+            @PathVariable(name = "message") String msg,
+            @PathVariable int age,
+            @PathVariable boolean isMan
+    ) {
         System.out.println("echo message: " + msg);
 
         return msg.toUpperCase();
+    }
+
+    // http://localhost:8080/api/book?category=IT&issuedYear=2025&issued-month=08&issued_day=24
+    @GetMapping(path = "/book")
+    public void queryParam(
+            @RequestParam String category,
+            @RequestParam String issuedYear, // url에 대문자를 적지 않는 것이 원칙이지만, 편의를 위해 사용하는 경우
+            @RequestParam(name = "issued-month") String issuedMonth, // url에 대문자를 적지 않고 원칙에 따라 -를 사용하는 경우
+            @RequestParam String issued_day // 추천하지 않는 방법
+    ) {
+
+    }
+
+    // http://localhost:8080/api/book?category=IT&issuedYear=2025&issuedMonth=08&issuedDay=24
+    @GetMapping(path = "/book2")
+    public void queryParamDto(
+            BookQueryParam bookQueryParam
+    ) {
+
     }
 }
