@@ -36,9 +36,9 @@ public class PostApiController {
 
     @PostMapping("/user")
     public UserRequest User(
-            @RequestBody UserRequest userRequest
+            @RequestBody UserRequest userRequest // JSON을 역직렬화해서 DTO로 변환
     ) {
         System.out.println(userRequest);
-        return userRequest;
+        return userRequest; // DTO를 직렬화해서 JSON으로 변환
     }
 }
