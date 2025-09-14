@@ -3,9 +3,13 @@ package org.example.exception.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.example.exception.controller.RestApiBController;
 import org.example.exception.controller.RestApiController;
+import org.example.exception.model.Api;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.NoSuchElementException;
 
 @Slf4j
 // ExceptionHandler 클래스로 만들어주는 애노테이션
@@ -37,4 +41,34 @@ public class RestApiExceptionHandler {
 
         return ResponseEntity.status(200).build();
     }
+
+    // 아래와 같이 설정하면 에러가 발생해도 200 OK로 전달된다.
+//    @ExceptionHandler(value = {NoSuchElementException.class})
+//    public Api noSuchElement(
+//            NoSuchElementException e
+//    ) {
+//        log.error("", e);
+//
+//        return Api.builder()
+//                .resultCode(String.valueOf(HttpStatus.NOT_FOUND.value()))
+//                .resultMessage(HttpStatus.NOT_FOUND.getReasonPhrase())
+//                .build();
+//    }
+
+    @ExceptionHandler(value = {NoSuchElementException.class})
+    public ResponseEntity<Api> noSuchElement(
+            NoSuchElementException e
+    ) {
+        log.error("", e);
+
+        var response = Api.builder()
+                .resultCode(String.valueOf(HttpStatus.NOT_FOUND.value()))
+                .resultMessage(HttpStatus.NOT_FOUND.getReasonPhrase())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+
 }
