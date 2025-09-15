@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.validation.annotation.PhoneNumber;
 
 import java.time.LocalDateTime;
 
@@ -17,8 +18,17 @@ import java.time.LocalDateTime;
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserRegisterRequest {
 
-    @NotBlank
+//    @NotBlank
+    // 둘 중 하나는 반드시 존재해야 하는 등의 복잡한 검증 로직은 함수를 이용해 직접 구현한다.
     private String name;
+    private String nickname;
+
+    // AssertTrue : 리턴 값이 True여야 통과
+    // 함수 이름은 반드시 is로 시작해야 한다.
+    @AssertTrue(message = "name or nickName 은 반드시 존재해야 합니다.")
+    public boolean isNameCheck() {
+        return !name.isBlank() || !nickname.isBlank();
+    }
 
     @Size(min = 1, max = 12)
     @NotBlank
@@ -32,7 +42,8 @@ public class UserRegisterRequest {
     @Email
     private String email;
 
-    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "휴대폰 번호 양식에 맞지 않습니다.")
+    // custom annotation
+    @PhoneNumber
     private String phoneNumber;
 
     // LocalDateTime은 ISO 8601 사용. "2025-09-15T10:00:00"
