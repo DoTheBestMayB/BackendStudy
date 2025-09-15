@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.exception.controller.RestApiBController;
 import org.example.exception.controller.RestApiController;
 import org.example.exception.model.Api;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +19,7 @@ import java.util.NoSuchElementException;
 //@RestControllerAdvice(basePackages = "com.example.exception.controller")
 // 특정 Controller의 예외만 catching
 @RestControllerAdvice(basePackageClasses = {RestApiController.class, RestApiBController.class})
+@Order(1)
 public class RestApiExceptionHandler {
 
     // 함수가 처리할 Exception을 선언하는 애노테이션
