@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.validation.annotation.PhoneNumber;
+import org.example.validation.annotation.YearMonth;
 
 import java.time.LocalDateTime;
 
@@ -49,4 +50,7 @@ public class UserRegisterRequest {
     // LocalDateTime은 ISO 8601 사용. "2025-09-15T10:00:00"
     @FutureOrPresent
     private LocalDateTime registerAt;
+
+    @YearMonth(pattern = "yyyy-MM", message = "year month 양식에 맞지 않습니다. ex) 2025-09")
+    private String birthDayYearMonth;
 }
