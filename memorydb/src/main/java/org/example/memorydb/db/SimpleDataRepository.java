@@ -10,7 +10,7 @@ abstract public class SimpleDataRepository<T extends Entity, ID extends Long> im
 
     private List<T> dataList = new ArrayList<T>();
 
-    private static long index = 0;
+    private static long index = 1;
 
     private Comparator<T> sort = new Comparator<T>() {
         @Override
@@ -32,7 +32,7 @@ abstract public class SimpleDataRepository<T extends Entity, ID extends Long> im
                 .findFirst();
 
         if (prevData.isPresent()) { // create
-            dataList.remove(prevData);
+            dataList.remove(prevData.get());
             dataList.add(data);
         } else { // update
             data.setId(index++);
@@ -67,7 +67,7 @@ abstract public class SimpleDataRepository<T extends Entity, ID extends Long> im
                 })
                 .findFirst();
         if (deleteEntity.isPresent()) {
-            dataList.remove(deleteEntity);
+            dataList.remove(deleteEntity.get());
         }
     }
 }
